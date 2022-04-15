@@ -9,9 +9,9 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { CryptoState } from "../CryptoContext";
+import CryptoContext from "../CryptoContext";
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -27,7 +27,7 @@ const Header = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const { currency, setCurrency } = CryptoState()
+  const { currency, setCurrency } = useContext(CryptoContext)
 
   const darkTheme = createTheme({
     palette: {

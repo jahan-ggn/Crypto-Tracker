@@ -3,12 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import CryptoContext from "./CryptoContext";
+import CryptoState from "./CryptoState";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CryptoContext>
+    <CryptoState>
       <App />
-    </CryptoContext>
+    </CryptoState>
   </React.StrictMode>,
   document.getElementById("root")
 );
