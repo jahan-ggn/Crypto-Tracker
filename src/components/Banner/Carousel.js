@@ -68,9 +68,12 @@ const Carousel = () => {
         </span>
         <span style={{ fontSize: 22, fontWeight: 500 }}>
           {symbol}{" "}
-          {coin?.current_price.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-          })}
+          {coin?.current_price.toLocaleString(
+            currency === "INR" ? "en-IN" : "en-US",
+            {
+              minimumFractionDigits: 2,
+            }
+          )}
         </span>
       </Link>
     );
@@ -78,12 +81,12 @@ const Carousel = () => {
 
   const responsive = {
     0: {
-      items: 2
+      items: 2,
     },
     512: {
-      items: 4
+      items: 4,
     },
-  }
+  };
 
   return (
     <div className={classes.carousel}>
