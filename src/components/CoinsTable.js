@@ -13,6 +13,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,7 @@ const CoinsTable = () => {
   const { currency } = useContext(CryptoContext);
   const navigate = useNavigate();
   const { symbol } = useContext(CryptoContext);
+  const [page, setPage] = useState(1);
 
   const fetchCoins = async () => {
     setLoading(true);
@@ -65,6 +67,11 @@ const CoinsTable = () => {
         backgroundColor: "#131111",
       },
       fontFamily: "Montserrat",
+    },
+    pagination: {
+      "& .MuiPaginationItem-root": {
+        color: "gold",
+      },
     },
   }));
 
@@ -107,75 +114,95 @@ const CoinsTable = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {handleSearch().map((row) => {
-                  const profit = row.price_change_percentage_24h >= 0;
-                  return (
-                    <TableRow
-                      onClick={() => navigate(`/coins/${row.id}`)}
-                      className={classes.row}
-                      key={row.name}
-                    >
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        style={{ display: "flex", gap: 15 }}
+                {handleSearch()
+                  .slice((page - 1) * 10, page * 10)
+                  .map((row) => {
+                    const profit = row.price_change_percentage_24h >= 0;
+                    return (
+                      <TableRow
+                        onClick={() => navigate(`/coins/${row.id}`)}
+                        className={classes.row}
+                        key={row.name}
                       >
-                        <img
-                          src={row?.image}
-                          alt={row.name}
-                          height="50"
-                          style={{ marginBottom: 10 }}
-                        />
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          style={{ display: "flex", gap: 15 }}
                         >
-                          <span
-                            style={{
-                              textTransform: "uppercase",
-                              fontSize: 22,
-                            }}
+                          <img
+                            src={row?.image}
+                            alt={row.name}
+                            height="50"
+                            style={{ marginBottom: 10 }}
+                          />
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
                           >
-                            {row.symbol}
-                          </span>
-                          <span style={{ color: "darkgrey" }}>{row.name}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        {symbol}{" "}
-                        {row.current_price.toLocaleString(
-                          currency === "INR" ? "en-IN" : "en-US",
-                          {
-                            minimumFractionDigits: 2,
-                          }
-                        )}
-                      </TableCell>
-                      <TableCell
-                        align="right"
-                        style={{ color: profit ? "rgb(14, 203, 129)" : "red" }}
-                      >
-                        {" "}
-                        {profit && "+"}
-                        {row.price_change_percentage_24h.toLocaleString(
-                          currency === "INR" ? "en-IN" : "en-US",
-                          { minimumFractionDigits: 2 }
-                        )}
-                        %
-                      </TableCell>
-                      <TableCell align="right">
-                        {Number(
-                          row.market_cap.toString().slice(0, -6)
-                        ).toLocaleString(
-                          currency === "INR" ? "en-IN" : "en-US"
-                        )}
-                        M
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                            <span
+                              style={{
+                                textTransform: "uppercase",
+                                fontSize: 22,
+                              }}
+                            >
+                              {row.symbol}
+                            </span>
+                            <span style={{ color: "darkgrey" }}>
+                              {row.name}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell align="right">
+                          {symbol}{" "}
+                          {row.current_price.toLocaleString(
+                            currency === "INR" ? "en-IN" : "en-US",
+                            {
+                              minimumFractionDigits: 2,
+                            }
+                          )}
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            color: profit ? "rgb(14, 203, 129)" : "red",
+                          }}
+                        >
+                          {" "}
+                          {profit && "+"}
+                          {row.price_change_percentage_24h.toLocaleString(
+                            currency === "INR" ? "en-IN" : "en-US",
+                            { minimumFractionDigits: 2 }
+                          )}
+                          %
+                        </TableCell>
+                        <TableCell align="right">
+                          {Number(
+                            row.market_cap.toString().slice(0, -6)
+                          ).toLocaleString(
+                            currency === "INR" ? "en-IN" : "en-US"
+                          )}
+                          M
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           )}
         </TableContainer>
+        <Pagination
+          style={{
+            padding: 20,
+            width: "100",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          classes={{ ul: classes.pagination }}
+          onChange={(_, value) => {
+            setPage(value)
+            window.scroll(0, 450)
+          }}
+          count={(handleSearch()?.length / 10).toFixed(0)}
+        ></Pagination>
       </Container>
     </ThemeProvider>
   );
