@@ -2,7 +2,7 @@ import { Container, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import Carousel from "./Carousel";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   banner: {
     backgroundImage: "url(./banner2.jpeg)",
   },
@@ -12,6 +12,12 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+  },
+  heading: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2.3rem",
+      textAlign: "center",
+    },
   },
 }));
 
@@ -28,6 +34,7 @@ const Banner = () => {
               marginBottom: 15,
               fontFamily: "Montserrat",
             }}
+            className={classes.heading}
           >
             Crypto Tracker
           </Typography>
@@ -38,13 +45,13 @@ const Banner = () => {
               color: "darkgrey",
               textTransform: "capitalize",
               fontFamily: "Montserrat",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             Get all the Info regarding your favorite Crypto Currency
           </Typography>
         </div>
-          <Carousel />
+        <Carousel />
       </Container>
     </div>
   );

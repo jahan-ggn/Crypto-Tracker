@@ -33,6 +33,7 @@ const CoinPage = () => {
       width: "40%",
       [theme.breakpoints.down("md")]: {
         width: "100%",
+        borderRight: "0px solid grey",
       },
       display: "flex",
       flexDirection: "column",
