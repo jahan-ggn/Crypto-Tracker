@@ -22,6 +22,13 @@ const CoinPage = () => {
   }, [currency]);
 
   const useStyles = makeStyles((theme) => ({
+    container: {
+      display: "flex",
+      [theme.breakpoints.down('md')]: {
+        flexDirection: "column",
+        alignItems: "center"
+      }
+    },
     sidebar: {
       width: "40%",
       [theme.breakpoints.down("md")]: {
@@ -68,7 +75,7 @@ const CoinPage = () => {
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
   return (
-    <div>
+    <div className={classes.container}>
       {/* SideBar */}
       <div className={classes.sidebar}>
         <img
