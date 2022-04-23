@@ -39,6 +39,14 @@ const Carousel = () => {
       cursor: "pointer",
       color: "white",
     },
+    price: {
+      ['@media (max-width:700px)']: {
+        fontSize: 16,
+        fontWeight: 500
+      },
+      fontSize: 22, 
+      fontWeight: 500
+    }
   }));
 
   const classes = useStyles();
@@ -66,7 +74,7 @@ const Carousel = () => {
             {coin?.price_change_percentage_24h?.toFixed(2)}%
           </span>
         </span>
-        <span style={{ fontSize: 22, fontWeight: 500 }}>
+        <span className={classes.price}>
           {symbol}{" "}
           {coin?.current_price.toLocaleString(
             currency === "INR" ? "en-IN" : "en-US",
