@@ -192,6 +192,7 @@ const CoinsTable = () => {
         <Pagination
           style={{
             paddingTop: 20,
+            paddingBottom: 20,
             width: "100",
             display: "flex",
             justifyContent: "center",
